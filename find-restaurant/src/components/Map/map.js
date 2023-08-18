@@ -92,7 +92,7 @@ export function Map() {
          <div className="list">
          <h4 className="section-title">Shared restaurants list here</h4>
         {history.map((e) => {
-          return <h4>{e}</h4>
+          return <p>{e}</p>
         })}
         </div>
       </div>
