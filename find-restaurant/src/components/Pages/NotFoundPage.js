@@ -5,7 +5,7 @@ export default function EmptyPage() {
         <div>
             <span>Current page is not found</span>
             <Link to={'/'}>
-                <span>Back to Home</span>
+                <button>Back to Home Page</button>
             </Link>
         </div>
     )

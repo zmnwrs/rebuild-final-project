@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import "@reach/combobox/styles.css";
-
-
 
 //import all these following for google find place
 import usePlacesAutocomplete, {
@@ -57,6 +55,7 @@ export function Search({ setMarkers, addNewHistory }) {
           }}
         >
           <ComboboxInput
+          style={ {width: "500px" }}
             value={value}
   
             onChange={(e) => {
@@ -69,7 +68,7 @@ export function Search({ setMarkers, addNewHistory }) {
             <ComboboxList>
               {console.log(data)}
               {status === "OK" &&
-                data.map(({ place_id, description, }) => {
+                data.map(({ place_id, description,  }) => {
                   //setHistory([...history, ...[description]]);
                   return <ComboboxOption key={place_id} value={description} />
                 })}

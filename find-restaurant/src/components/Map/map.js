@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   GoogleMap,
   useLoadScript,
@@ -10,15 +10,17 @@ import "@reach/combobox/styles.css";
 import mapStyle from "../App/mapStyle";
 import { Search } from "./Search";
 import { Link } from "react-router-dom";
+import './map.css'
+
+
 
 const libraries = ["places"];
 
-const mapContainerStyle = {
-
+ const mapContainerStyle = {
   width: "100%",
   height: "500px",
 };
-
+ 
 const center = {
   lat: -37.81218719482422,
   lng: 144.96229553222656,
@@ -31,9 +33,9 @@ const options = {
   zoomControl: true,
 };
 
-export function Map()  {
+export function Map() {
 
-      //check loading status
+  //check loading status
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_KEY,
     libraries,
@@ -44,6 +46,8 @@ export function Map()  {
   //debug -- should be null not []
   const [selected, setSelected] = React.useState(null);
 
+  const [LatestPosition, setLatestPosition] = React.useState(-1);
+
   const [history, setHistory] = useState([])
 
   const addNewHistory = React.useCallback((value) => {
@@ -53,19 +57,22 @@ export function Map()  {
     }
   })
 
+  console.log("selected", selected)
+  console.log("markers", markers)
+
 
   //React-call back function: useCallBack will returen a memozied version of the callback that only changes if one of the inputs has changed --reactjs-hooks references
-  const onMapClick = React.useCallback((event) => {
-    setMarkers((current) => [
-      ...current,
-      {
-        lat: event.latLng.lat(),
-        lng: event.latLng.lng(),
-        time: new Date(),
-      },
-    ]);
-  }, []);
-
+  /*   const onMapClick = React.useCallback((event) => {
+      setMarkers((current) => [
+        ...current,
+        {
+          lat: event.latLng.lat(),
+          lng: event.latLng.lng(),
+          time: new Date(),
+        },
+      ]);
+    }, []);
+   */
   // //useState -cause rerender  vs  useRef -retain state without rerender
   const mapRef = React.useRef();
   const onMapLoad = React.useCallback((map) => {
@@ -76,49 +83,57 @@ export function Map()  {
   if (!isLoaded) return "loading";
 
   return (
-    <div class="flex-container" data-testid = "flex-container">
-      <div class="flex-item" data-testid="flex-item">
+    <div>
       <h1>Find a restaurant here to share with your friends</h1>
-      <Search setMarkers={setMarkers} addNewHistory ={addNewHistory} />
-      <br />
-      {history.map((e) => {
-        return <h3>The name is {e}</h3>
-      })}
+        <Search setMarkers={setMarkers} addNewHistory={addNewHistory} />
+        <br />
+    <div className="Map" >
+      <div >
+         <div className="list">
+         <h4 className="section-title">Shared restaurants list here</h4>
+        {history.map((e) => {
+          return <h4>{e}</h4>
+        })}
+        </div>
       </div>
-      
-      <div class="flex-item" data-testid="flex-item">
-      <GoogleMap
-        mapContainerStyle={mapContainerStyle}
-        center={center}
-        zoom={15}
-        options={options}
-        //above the event is moving to onMapClick
-        // onClick={onMapClick}
-        onLoad={onMapLoad}
-      >
-        {markers.map((marker) => (
-          <Marker
-            key={marker.time.toISOString()} //Use timestamp as the unique key, add marker here with onclick
-            position={{ lat: marker.lat, lng: marker.lng }}
-            onClick={() => {
-              setSelected(marker);
-            }}
-          />
-        ))}
 
-        {selected ? (
-          <InfoWindow position={{ lat: selected.lat, lng: selected.lng }}>
-            <div>
-              <h2>Should put the name and address here</h2>
-              {/* <p>xxxxxx{formatRelative(selected.time, new Date())}</p> */}
-            </div>
-          </InfoWindow>
-        ) : null}
-      </GoogleMap>
+      <div className="list">
+        <GoogleMap
+          mapContainerStyle={mapContainerStyle}
+          center={center}
+          zoom={15}
+          options={options}
+          //above the event is moving to onMapClick
+          // onClick={onMapClick}
+          onLoad={onMapLoad}
+        >
+          {markers.map((marker, idk) => (
+            <Marker
+              key={marker.time.toISOString()} //Use timestamp as the unique key, add marker here with onclick
+              position={{ lat: marker.lat, lng: marker.lng }}
+              onClick={() => {
+                console.log("here on click")
+                setSelected(marker);
+                setLatestPosition(idk)
+              }}
+            />
+          ))}
+
+          {selected ? (
+            <InfoWindow position={{ lat: selected.lat, lng: selected.lng }}>
+              <div>
+                <h2>{history[LatestPosition]} </h2>
+                {/* <p>xxxxxx{formatRelative(selected.time, new Date())}</p> */}
+              </div>
+            </InfoWindow>
+          ) : null}
+        </GoogleMap>
+      </div>
       </div>
       <Link to={'/'}>
-        <span>Back to Home</span>
+        <button>Back to Home</button>
       </Link>
     </div>
+   
   );
 }

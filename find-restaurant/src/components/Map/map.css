@@ -1,0 +1,33 @@
+.Map {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: stretch;
+  justify-content: space-around;
+  }
+  
+  .Map .list {
+    position: relative;
+    min-width: 900px;
+    flex: 50%;
+    height: 100%;
+    padding: 3. 0 0;
+    margin: 10px;
+  }
+
+
+  .Map .google-map {
+    flex: 50%;
+  }
+  
+  .Map .google-map > .section-title {
+    left: 100%;
+     }
+  
+
+  .Map .list > .section-title {
+    width: 100%;
+    left: 0;
+  }
+  
