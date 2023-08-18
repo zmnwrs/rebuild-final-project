@@ -1,0 +1,16 @@
+.flex-container {
+    display: block;
+    position: relative;
+    justify-content: space-around;
+    flex: 1;
+    flex-direction: column;
+}
+
+.flex-container .flex-item {
+    display: block;
+    position: relative;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow: auto;
+
+}
