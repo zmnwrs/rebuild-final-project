@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/rebuild-final-project/static/css/main.46462e2f.css",
+    "main.js": "/rebuild-final-project/static/js/main.f3296a95.js",
+    "index.html": "/rebuild-final-project/index.html",
+    "main.46462e2f.css.map": "/rebuild-final-project/static/css/main.46462e2f.css.map",
+    "main.f3296a95.js.map": "/rebuild-final-project/static/js/main.f3296a95.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.46462e2f.css",
+    "static/js/main.f3296a95.js"
+  ]
+}
